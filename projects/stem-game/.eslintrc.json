@@ -1,0 +1,44 @@
+{
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": [
+    "!**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "projects/stem-game/tsconfig.app.json",
+          "projects/stem-game/tsconfig.spec.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "stem-game",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "stem-game",
+            "style": "kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "rules": {}
+    }
+  ]
+}

@@ -12,7 +12,7 @@
       },
       "root": "projects/stem-game",
       "sourceRoot": "projects/stem-game/src",
-      "prefix": "app",
+      "prefix": "stem-game",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -100,8 +100,23 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/stem-game/**/*.ts",
+              "projects/stem-game/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@angular-eslint/schematics",
+      "@ngrx/schematics"
+    ]
   }
 }
