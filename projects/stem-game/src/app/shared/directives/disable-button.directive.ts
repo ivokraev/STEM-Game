@@ -44,7 +44,7 @@ export class DisableButtonStyleDirective implements OnDestroy {
       this.renderer.setStyle(
         this.button.nativeElement,
         'background-color',
-        'rgb(30 64 175);'
+        'rgb(30 64 175)'
       );
     }
   }

@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed, TestBedStatic } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AuthComponent } from '../../auth/auth.component';
 import { DisableButtonStyleDirective } from './disable-button.directive';
 
 describe('DisableButtonDirective', () => {
-  let component: AuthComponent;
 
   let fixture: ComponentFixture<AuthComponent>;
   let buttons: any[];
@@ -27,12 +26,14 @@ describe('DisableButtonDirective', () => {
       providers: [
         {provide: FormBuilder},
         provideMockStore({ initialState: initialTestState }),
+      ],
+      imports: [
+        ReactiveFormsModule
       ]
     })
     .createComponent(AuthComponent);
 
     fixture.detectChanges();
-    component = fixture.componentInstance;
 
 
     buttons = fixture.debugElement.queryAll(By.directive(DisableButtonStyleDirective));
@@ -47,7 +48,7 @@ describe('DisableButtonDirective', () => {
       }
       else{
         expect(button.style.cursor).toBe('pointer');
-        expect(button.style.backgroundColor).toBe('#1E40AF');
+        expect(button.style.backgroundColor).toBe('rgb(30, 64, 175)');
       }
     });
   })
