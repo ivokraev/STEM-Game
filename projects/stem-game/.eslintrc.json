@@ -20,7 +20,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "stem-game",
+            "prefix": "stemGame",
             "style": "camelCase"
           }
         ],
