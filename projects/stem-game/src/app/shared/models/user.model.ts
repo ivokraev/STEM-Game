@@ -1,5 +1,15 @@
+import { AuthResponseData } from "./auth-response-data.model";
 
-
+export function createUser(authResponseData: AuthResponseData): User {
+  const expiresIn = parseInt(authResponseData.expiresIn)
+  const tokenExpansionDate  = new Date(new Date().getTime() + expiresIn * 1000);
+  return new User(
+    authResponseData.email,
+    authResponseData.localId,
+    authResponseData.idToken,
+    tokenExpansionDate
+  );
+}
 export class User {
   constructor(
     public email: string,
