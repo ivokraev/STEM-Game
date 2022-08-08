@@ -15,7 +15,7 @@ export const initialState: State = {
   authError: null
 };
 
-export const reducer = createReducer(
+export const authReducer = createReducer(
   initialState,
   on(AuthActions.AuthComplete, (state, {currentUser}): State => ({
     ...state,

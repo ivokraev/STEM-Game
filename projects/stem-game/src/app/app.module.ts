@@ -14,6 +14,8 @@ import { environment } from '../environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DisableButtonStyleDirective } from './shared/directives/disable-button.directive';
 
+import * as fromApp from './store/app.reducer'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,10 +28,10 @@ import { DisableButtonStyleDirective } from './shared/directives/disable-button.
     HttpClientModule,
     ReactiveFormsModule,
 
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([AuthEffects]),
     EffectsModule.forFeature([]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, name: 'STEM Game' })
   ],
   providers: [],
   bootstrap: [AppComponent]
