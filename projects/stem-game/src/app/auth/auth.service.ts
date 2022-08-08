@@ -27,6 +27,19 @@ export class AuthService {
     )
   }
 
+  login(authData: AuthData): Observable<AuthResponseData> {
+    return this.http.post<AuthResponseData>(
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.API_Key,
+      {
+        email: authData.email,
+        password: authData.password,
+        returnSecureToken: true,
+      }
+    ).pipe(
+      catchError((error) => this.handleHttpError(error))
+    )
+  }
+
   private handleHttpError(error: HttpErrorResponse): Observable<never> {
     return throwError(() => error.message);
   }

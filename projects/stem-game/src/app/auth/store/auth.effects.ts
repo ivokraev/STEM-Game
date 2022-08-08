@@ -21,7 +21,7 @@ export class AuthEffects {
     );
   });
 
-  signUp$ = createEffect((): any => {
+  signUp$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.Actions.SIGN_UP),
       map((actionData: any) => {
@@ -37,6 +37,23 @@ export class AuthEffects {
       })
     );
   });
+
+  login$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.Actions.LOGIN),
+      map((actionData: any) => {
+        return actionData.authData;
+      }),
+      switchMap((authData: AuthData) => {
+        return this.authService.login(authData).pipe(
+          map((recevedData: AuthResponseData) => {
+            const user = createUser(recevedData);
+            return AuthActions.AuthComplete({currentUser: user});
+          })
+        );
+      })
+    )
+  })
 
   constructor(private actions$: Actions, private authService: AuthService) {}
 }

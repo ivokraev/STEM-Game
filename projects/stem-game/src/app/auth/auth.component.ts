@@ -53,4 +53,8 @@ export class AuthComponent implements OnInit {
     );
     this.store.dispatch(AuthActions.AuthStarted({authData}))
   }
+
+  onChangeMode(): void {
+    this.isSignup = !this.isSignup;
+  }
 }
