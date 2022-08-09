@@ -16,14 +16,20 @@
               {{isSignup ? 'Регистрация' : 'Вход' }}
             </p>
             <br>
-            <div class="flex flex-col justify-center w-48">
+            <div class="flex flex-col justify-center w-60">
               <form [formGroup]="signupForm" (submit)="onFormSubmit()">
-                <label for="playerName" class="font-extralight mt-3">Име</label>
-                <input type="text" name="" id="playerName" class="w-full rounded-full px-3 py-1" formControlName="name">
-                <label for="playerEmail" class="font-extralight mt-3">Email</label>
-                <input type="email" name="" id="playerEmail" class="w-full rounded-full px-3 py-1" formControlName="email">
-                <label for="playerPassword" class="font-extralight mt-3">Парола</label>
-                <input type="password" name="" id="playerPassword" class="w-full rounded-full px-3 py-1" formControlName="password">
+                <div class="mt-3">
+                  <label for="playerName" class="font-extralight">Име</label>
+                  <input type="text" name="" id="playerName" class="w-full rounded-full px-3 py-1" formControlName="name">
+                </div>
+                <div class="mt-3">
+                  <label for="playerEmail" class="font-extralight">Email</label>
+                  <input type="email" name="" id="playerEmail" class="w-full rounded-full px-3 py-1" formControlName="email">
+                </div>
+                <div class="mt-3">
+                  <label for="playerPassword" class="font-extralight">Парола</label>
+                  <input type="password" name="" id="playerPassword" class="w-full rounded-full px-3 py-1" formControlName="password">
+                </div>
 
                 <button stemGameDisableButtonStyle [disable]="!signupForm.valid" type="submit" class="my-7 w-36 bg-blue-800 rounded-full text-white" [disabled]="!signupForm.valid">
                   <p class="my-2">

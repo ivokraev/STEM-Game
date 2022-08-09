@@ -5,7 +5,7 @@ import { map, switchMap, tap } from 'rxjs';
 import * as AuthActions from './auth.actions';
 import { AuthData } from '../../shared/models/auth-data.model';
 import { AuthService } from '../auth.service';
-import { AuthResponseData } from '../../shared/models/auth-response-data.model';
+import { IAuthResponseData } from '../../shared/models/auth-response-data.model';
 import { createUser, User } from '../../shared/models/user.model';
 
 @Injectable()
@@ -29,9 +29,9 @@ export class AuthEffects {
       }),
       switchMap((authData: AuthData) => {
         return this.authService.signUp(authData).pipe(
-          map((recevedData: AuthResponseData) => {
+          map((recevedData: IAuthResponseData) => {
             const user = createUser(recevedData);
-            return AuthActions.AuthComplete({currentUser: user});
+            return AuthActions.AuthComplete({ currentUser: user });
           })
         );
       })
@@ -46,14 +46,41 @@ export class AuthEffects {
       }),
       switchMap((authData: AuthData) => {
         return this.authService.login(authData).pipe(
-          map((recevedData: AuthResponseData) => {
+          map((recevedData: IAuthResponseData) => {
             const user = createUser(recevedData);
-            return AuthActions.AuthComplete({currentUser: user});
+            return AuthActions.AuthComplete({ currentUser: user });
           })
         );
       })
-    )
-  })
+    );
+  });
+
+  authComplete$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(AuthActions.Actions.AUTH_COMPLETE),
+        map((actionData: any) => {
+          return actionData.currentUser;
+        }),
+        tap((currentUser: User) => {
+          this.authService.authCompleted(currentUser);
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  logout$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(AuthActions.Actions.LOG_OUT),
+        tap(() => {
+          return this.authService.logout();
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   constructor(private actions$: Actions, private authService: AuthService) {}
 }
