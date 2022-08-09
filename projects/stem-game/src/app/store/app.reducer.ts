@@ -1,4 +1,5 @@
-import { Action, ActionReducerMap, createReducer, on } from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
+
 import * as fromAuth from '../auth/store/auth.reducer'
 
 export const appFeatureKey = 'app';

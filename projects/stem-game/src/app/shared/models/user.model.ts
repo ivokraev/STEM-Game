@@ -1,6 +1,6 @@
-import { AuthResponseData } from "./auth-response-data.model";
+import { IAuthResponseData } from "./auth-response-data.model";
 
-export function createUser(authResponseData: AuthResponseData): User {
+export function createUser(authResponseData: IAuthResponseData): User {
   const expiresIn = parseInt(authResponseData.expiresIn)
   const tokenExpansionDate  = new Date(new Date().getTime() + expiresIn * 1000);
   return new User(
@@ -22,5 +22,9 @@ export class User {
     if(this._tokenExpirationDate && this._tokenExpirationDate.getTime() > Date.now())
       return this._token;
     return '';
+  }
+
+  get tokenExpirationDate(): Date {
+    return this._tokenExpirationDate;
   }
 }
