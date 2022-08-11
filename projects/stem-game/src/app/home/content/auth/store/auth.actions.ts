@@ -1,6 +1,6 @@
 import { createAction, emptyProps, props } from '@ngrx/store';
-import { AuthData } from '../../shared/models/auth-data.model';
-import { User } from '../../shared/models/user.model';
+import { AuthData } from '../../../../shared/models/auth-data.model';
+import { User } from '../../../../shared/models/user.model';
 
 export enum Actions {
   AUTH_STARTED = '[Auth page] Authentication started',
