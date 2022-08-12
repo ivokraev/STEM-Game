@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AuthData } from 'projects/stem-game/src/app/shared/models/auth-data.model';
+
+import * as AuthActions from '../store//auth.actions'
 
 @Component({
   selector: 'stem-game-signup',
@@ -11,7 +15,7 @@ export class SignupComponent implements OnInit {
 
   signupForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private store: Store) { }
 
   ngOnInit(): void {
     this.signupFormInit();
@@ -43,7 +47,12 @@ export class SignupComponent implements OnInit {
   }
 
   onFormSubmit(): void {
-
+    const authData = new AuthData(
+      this.signupForm.controls['email'].value,
+      this.signupForm.controls['password'].value,
+      true
+    )
+    this.store.dispatch(AuthActions.AuthStarted({authData: authData}));
   }
 
   onSignup(): void {
