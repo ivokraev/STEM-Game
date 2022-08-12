@@ -1,9 +1,8 @@
 import { createAction, emptyProps, props } from '@ngrx/store';
-import { AuthData } from '../../shared/models/auth-data.model';
-import { User } from '../../shared/models/user.model';
+import { AuthData } from '../../../../shared/models/auth-data.model';
+import { User } from '../../../../shared/models/user.model';
 
 export enum Actions {
-  AUTH_STARTED = '[Auth page] Authentication started',
   SIGN_UP = '[Auth page] Signing up user',
   LOGIN = '[Auth page] Logging in user',
   AUTH_COMPLETE = '[Auth page] Authentication completed successfully',
@@ -11,10 +10,6 @@ export enum Actions {
   LOG_OUT = '[Auth page] Logging out user'
 }
 
-export const AuthStarted = createAction(
-  Actions.AUTH_STARTED,
-  props<{authData: AuthData}>()
-);
 
 export const SignUp = createAction(
   Actions.SIGN_UP,
