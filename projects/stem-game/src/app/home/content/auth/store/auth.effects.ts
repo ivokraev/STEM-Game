@@ -10,16 +10,6 @@ import { createUser, User } from '../../../../shared/models/user.model';
 
 @Injectable()
 export class AuthEffects {
-  authStarted$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(AuthActions.Actions.AUTH_STARTED),
-      map((actionData: any) => {
-        let authData: AuthData = actionData.authData;
-        if (authData.isNewUser) return AuthActions.SignUp({ authData });
-        return AuthActions.Login({ authData });
-      })
-    );
-  });
 
   signUp$ = createEffect(() => {
     return this.actions$.pipe(
