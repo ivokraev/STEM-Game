@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, switchMap, tap } from 'rxjs';
+import { catchError, map, of, switchMap, tap, throwError } from 'rxjs';
 
 import * as AuthActions from './auth.actions';
 import { AuthData } from '../../../../shared/models/auth-data.model';
 import { AuthService } from '../auth.service';
 import { IAuthResponseData } from '../../../../shared/models/auth-response-data.model';
 import { createUser, User } from '../../../../shared/models/user.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class AuthEffects {
-
   signUp$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.Actions.SIGN_UP),
@@ -22,7 +22,10 @@ export class AuthEffects {
           map((recevedData: IAuthResponseData) => {
             const user = createUser(recevedData);
             return AuthActions.AuthComplete({ currentUser: user });
-          })
+          }),
+          catchError((authError: any) =>
+            of(AuthActions.AuthError({ authError: authError }))
+          )
         );
       })
     );
@@ -39,7 +42,10 @@ export class AuthEffects {
           map((recevedData: IAuthResponseData) => {
             const user = createUser(recevedData);
             return AuthActions.AuthComplete({ currentUser: user });
-          })
+          }),
+          catchError((authError: string | Error | HttpErrorResponse) =>
+            of(AuthActions.AuthError({ authError: authError }))
+          )
         );
       })
     );
