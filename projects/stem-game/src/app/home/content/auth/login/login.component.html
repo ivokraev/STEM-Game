@@ -17,7 +17,7 @@
               formControlName="password" autocomplete="new-password">
           </div>
 
-          <button stemGameDisableButtonStyle [disable]="!signupForm.valid" type="submit"
+          <button [stemGameDisableButtonStyle]="!signupForm.valid" type="submit"
             class="my-7 w-36 rounded-full bg-blue-800 text-white" [disabled]="!signupForm.valid">
             <p class="my-2">Вход</p>
           </button>
@@ -28,7 +28,7 @@
 
   <div class="my-3 flex justify-center">
     <div class="text-center">
-      <button class="p-2 text-sky-500 duration-200 hover:scale-110" [routerLink]="['/home','signup']">Регистрация</button>
+      <button class="p-2 text-sky-500" [routerLink]="['/home','signup']">Регистрация</button>
     </div>
   </div>
 </div>

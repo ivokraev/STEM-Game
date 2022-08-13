@@ -10,21 +10,9 @@ import {
 @Directive({
   selector: '[stemGameDisableButtonStyle]',
 })
-export class DisableButtonStyleDirective implements OnDestroy {
-  @Input() disable: boolean = true;
-  private interval!: any;
-
-  constructor(private button: ElementRef, private renderer: Renderer2) {
-    this.setStyle();
-    this.setDynamicStyle();
-  }
-
-  setDynamicStyle(): void {
-    this.interval = setInterval(() => this.setStyle(), 100);
-  }
-
-  setStyle(): void {
-    if (this.disable) {
+export class DisableButtonStyleDirective {
+  @Input() set stemGameDisableButtonStyle(disabled: boolean) {
+    if (disabled) {
       this.renderer.setStyle(
         this.button.nativeElement,
         'cursor',
@@ -36,11 +24,7 @@ export class DisableButtonStyleDirective implements OnDestroy {
         'rgb(143, 171, 255)'
       );
     } else {
-      this.renderer.setStyle(
-        this.button.nativeElement,
-        'cursor',
-        'pointer'
-      );
+      this.renderer.setStyle(this.button.nativeElement, 'cursor', 'pointer');
       this.renderer.setStyle(
         this.button.nativeElement,
         'background-color',
@@ -49,7 +33,5 @@ export class DisableButtonStyleDirective implements OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    clearInterval(this.interval);
-  }
+  constructor(private button: ElementRef, private renderer: Renderer2) {}
 }
