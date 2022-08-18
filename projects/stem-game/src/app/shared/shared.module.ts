@@ -6,14 +6,16 @@ import { CookiesComponent } from './components/cookies/cookies.component';
 import { DisableButtonStyleDirective } from './directives/disable-button.directive';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { HeaderComponent } from './components/header/header.component';
+import { ContentBorderComponent } from './components/content-border/content-border.component';
 
 
 @NgModule({
   declarations: [
     ErrorComponent,
-    CookiesComponent,
     HeaderComponent,
+    CookiesComponent,
     PageNotFoundComponent,
+    ContentBorderComponent,
 
     DisableButtonStyleDirective,
   ],
@@ -23,8 +25,10 @@ import { HeaderComponent } from './components/header/header.component';
   exports: [
     CommonModule,
     ErrorComponent,
-    CookiesComponent,
+    ContentBorderComponent,
     HeaderComponent,
+    CookiesComponent,
+    ContentBorderComponent,
 
     DisableButtonStyleDirective,
   ]
