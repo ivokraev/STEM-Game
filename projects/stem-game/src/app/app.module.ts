@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import * as fromApp from './store/app.reducer';
 import { SharedModule } from './shared/shared.module';
 
-import { HomeModule } from './home/home.module';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +34,6 @@ import { HomeModule } from './home/home.module';
 
     SharedModule,
     AppRoutingModule,
-    HomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
