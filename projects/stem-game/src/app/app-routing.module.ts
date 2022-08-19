@@ -4,9 +4,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
-    path: 'home',
+    path: '',
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
   {

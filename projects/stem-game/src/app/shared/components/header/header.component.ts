@@ -17,10 +17,13 @@ export class HeaderComponent implements OnInit {
   onNavigate(namePage: string): void {
     switch (namePage) {
       case 'welcome':
-        this.router.navigate(['home', 'welcome']);
+        this.router.navigate(['welcome']);
         break;
       case 'game':
         this.router.navigate(['game']);
+        break;
+      case 'login':
+        this.router.navigate(['login']);
         break;
     }
   }
