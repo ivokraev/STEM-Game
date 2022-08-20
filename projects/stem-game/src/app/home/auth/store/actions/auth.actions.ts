@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
-import { AuthData } from '../../../shared/models/auth-data.model';
+import { AuthData } from '../../../../shared/models/auth-data.model';
 
 export enum Actions {
   SIGN_UP = '[Auth page] Signing up user',

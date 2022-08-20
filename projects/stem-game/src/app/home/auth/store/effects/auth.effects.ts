@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 
-import * as AuthActions from './auth.actions';
-import { AuthData } from '../../../shared/models/auth-data.model';
-import { AuthService } from '../auth.service';
-import { IAuthResponseData } from '../../../shared/models/auth-response-data.model';
+import * as AuthActions from '../actions/auth.actions';
+import { AuthData } from '../../../../shared/models/auth-data.model';
+import { AuthService } from '../../auth.service';
+import { IAuthResponseData } from '../../../../shared/models/auth-response-data.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -52,8 +52,11 @@ export class AuthEffects {
     () => {
       return this.actions$.pipe(
         ofType(AuthActions.Actions.AUTH_COMPLETE),
-        tap(() => {
-          this.authService.authCompleted();
+        map((authData: any) => {
+          return authData.authToken;
+        }),
+        tap((authToken: string) => {
+          this.authService.authCompleted(authToken);
         })
       );
     },
