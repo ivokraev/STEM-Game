@@ -38,8 +38,8 @@ export class AuthService {
     );
   }
 
-  authCompleted(currentUser: User): void {
-    this.writeTokenToCookie(currentUser);
+  authCompleted(): void {
+    this.router.navigate(['/welcome']);
   }
 
   logout(): void {

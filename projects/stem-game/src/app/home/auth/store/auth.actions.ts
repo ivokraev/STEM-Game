@@ -23,7 +23,7 @@ export const Login = createAction(
 
 export const AuthComplete = createAction(
   Actions.AUTH_COMPLETE,
-  props<{ currentUser: User }>()
+  props<{ authToken: string }>()
 );
 
 export const AuthError = createAction(

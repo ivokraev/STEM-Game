@@ -6,12 +6,12 @@ import * as AuthActions from './auth.actions';
 export const authFeatureKey = 'auth';
 
 export interface State {
-  currentUser: User | null;
+  authToken: string | null;
   authError: string | Error | HttpErrorResponse | null;
 }
 
 export const initialState: State = {
-  currentUser: null,
+  authToken: null,
   authError: null,
 };
 
@@ -19,9 +19,9 @@ export const authReducer = createReducer(
   initialState,
   on(
     AuthActions.AuthComplete,
-    (state, { currentUser }): State => ({
+    (state, { authToken }): State => ({
       ...state,
-      currentUser: currentUser,
+      authToken: authToken,
       authError: null,
     })
   ),
@@ -29,7 +29,7 @@ export const authReducer = createReducer(
     AuthActions.AuthError,
     (state, { authError }): State => ({
       ...state,
-      currentUser: null,
+      authToken: null,
       authError: authError,
     })
   ),
@@ -37,7 +37,7 @@ export const authReducer = createReducer(
     AuthActions.LogOut,
     (state): State => ({
       ...state,
-      currentUser: null,
+      authToken: null,
       authError: null,
     })
   )

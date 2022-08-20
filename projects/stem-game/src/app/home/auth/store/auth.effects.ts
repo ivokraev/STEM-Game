@@ -20,8 +20,7 @@ export class AuthEffects {
       switchMap((authData: AuthData) => {
         return this.authService.signUp(authData).pipe(
           map((recevedData: IAuthResponseData) => {
-            const user = createUser(recevedData);
-            return AuthActions.AuthComplete({ currentUser: user });
+            return AuthActions.AuthComplete({ authToken: recevedData.idToken });
           }),
           catchError((authError: any) =>
             of(AuthActions.AuthError({ authError: authError }))
@@ -40,8 +39,7 @@ export class AuthEffects {
       switchMap((authData: AuthData) => {
         return this.authService.login(authData).pipe(
           map((recevedData: IAuthResponseData) => {
-            const user = createUser(recevedData);
-            return AuthActions.AuthComplete({ currentUser: user });
+            return AuthActions.AuthComplete({ authToken: recevedData.idToken });
           }),
           catchError((authError: string | Error | HttpErrorResponse) =>
             of(AuthActions.AuthError({ authError: authError }))
@@ -55,11 +53,8 @@ export class AuthEffects {
     () => {
       return this.actions$.pipe(
         ofType(AuthActions.Actions.AUTH_COMPLETE),
-        map((actionData: any) => {
-          return actionData.currentUser;
-        }),
-        tap((currentUser: User) => {
-          this.authService.authCompleted(currentUser);
+        tap(() => {
+          this.authService.authCompleted();
         })
       );
     },
