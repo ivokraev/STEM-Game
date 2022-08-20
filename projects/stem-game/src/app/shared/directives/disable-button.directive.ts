@@ -10,46 +10,38 @@ import {
 @Directive({
   selector: '[stemGameDisableButtonStyle]',
 })
-export class DisableButtonStyleDirective implements OnDestroy {
-  @Input() disable: boolean = true;
-  private interval!: any;
-
-  constructor(private button: ElementRef, private renderer: Renderer2) {
-    this.setStyle();
-    this.setDynamicStyle();
-  }
-
-  setDynamicStyle(): void {
-    this.interval = setInterval(() => this.setStyle(), 100);
-  }
-
-  setStyle(): void {
-    if (this.disable) {
+export class DisableButtonStyleDirective {
+  @Input() set stemGameDisableButtonStyle(data: {
+    disabled: boolean;
+    setColor?: boolean;
+  }) {
+    if (data.disabled) {
+      this.button.nativeElement.disabled = true;
       this.renderer.setStyle(
         this.button.nativeElement,
         'cursor',
         'not-allowed'
       );
-      this.renderer.setStyle(
-        this.button.nativeElement,
-        'background-color',
-        'rgb(143, 171, 255)'
-      );
+      if (data.setColor) {
+        this.renderer.setStyle(
+          this.button.nativeElement,
+          'background-color',
+          'rgb(143, 171, 255)'
+        );
+      }
     } else {
-      this.renderer.setStyle(
-        this.button.nativeElement,
-        'cursor',
-        'pointer'
-      );
-      this.renderer.setStyle(
-        this.button.nativeElement,
-        'background-color',
-        'rgb(30 64 175)'
-      );
+      this.button.nativeElement.disabled = false;
+
+      this.renderer.setStyle(this.button.nativeElement, 'cursor', 'pointer');
+      if (data.setColor) {
+        this.renderer.setStyle(
+          this.button.nativeElement,
+          'background-color',
+          'rgb(30 64 175)'
+        );
+      }
     }
   }
 
-  ngOnDestroy(): void {
-    clearInterval(this.interval);
-  }
+  constructor(private button: ElementRef, private renderer: Renderer2) {}
 }

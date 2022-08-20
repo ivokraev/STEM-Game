@@ -24,7 +24,6 @@
             "tsConfig": "projects/stem-game/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/stem-game/src/favicon.ico",
               "projects/stem-game/src/assets"
             ],
             "styles": [
@@ -92,7 +91,6 @@
             "karmaConfig": "projects/stem-game/karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/stem-game/src/favicon.ico",
               "projects/stem-game/src/assets"
             ],
             "styles": [

@@ -1,6 +1,6 @@
 import { ActionReducerMap } from '@ngrx/store';
 
-import * as fromAuth from '../home/content/auth/store/auth.reducer'
+import * as fromAuth from '../home/auth/store/auth.reducer'
 
 export const appFeatureKey = 'app';
 

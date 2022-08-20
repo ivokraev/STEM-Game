@@ -8,7 +8,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
 
-import { AuthEffects } from './home/content/auth/store/auth.effects';
+import { AuthEffects } from './home/auth/store/auth.effects';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import * as fromApp from './store/app.reducer';
 import { SharedModule } from './shared/shared.module';
 
-import { HomeModule } from './home/home.module';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +34,6 @@ import { HomeModule } from './home/home.module';
 
     SharedModule,
     AppRoutingModule,
-    HomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
