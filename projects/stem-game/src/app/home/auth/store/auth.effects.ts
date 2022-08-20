@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap, tap, throwError } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as AuthActions from './auth.actions';
 import { AuthData } from '../../../shared/models/auth-data.model';
 import { AuthService } from '../auth.service';
 import { IAuthResponseData } from '../../../shared/models/auth-response-data.model';
-import { createUser, User } from '../../../shared/models/user.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
