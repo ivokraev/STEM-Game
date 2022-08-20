@@ -11,25 +11,35 @@ import {
   selector: '[stemGameDisableButtonStyle]',
 })
 export class DisableButtonStyleDirective {
-  @Input() set stemGameDisableButtonStyle(disabled: boolean) {
-    if (disabled) {
+  @Input() set stemGameDisableButtonStyle(data: {
+    disabled: boolean;
+    setColor?: boolean;
+  }) {
+    if (data.disabled) {
+      this.button.nativeElement.disabled = true;
       this.renderer.setStyle(
         this.button.nativeElement,
         'cursor',
         'not-allowed'
       );
-      this.renderer.setStyle(
-        this.button.nativeElement,
-        'background-color',
-        'rgb(143, 171, 255)'
-      );
+      if (data.setColor) {
+        this.renderer.setStyle(
+          this.button.nativeElement,
+          'background-color',
+          'rgb(143, 171, 255)'
+        );
+      }
     } else {
+      this.button.nativeElement.disabled = false;
+
       this.renderer.setStyle(this.button.nativeElement, 'cursor', 'pointer');
-      this.renderer.setStyle(
-        this.button.nativeElement,
-        'background-color',
-        'rgb(30 64 175)'
-      );
+      if (data.setColor) {
+        this.renderer.setStyle(
+          this.button.nativeElement,
+          'background-color',
+          'rgb(30 64 175)'
+        );
+      }
     }
   }
 

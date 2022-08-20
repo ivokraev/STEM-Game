@@ -18,8 +18,8 @@
                 formControlName="password" autocomplete="new-password">
             </div>
 
-            <button [stemGameDisableButtonStyle]="!signupForm.valid" type="submit"
-              class="my-7 w-36 rounded-full bg-blue-800 text-white" [disabled]="!signupForm.valid">
+            <button [stemGameDisableButtonStyle]="{disabled: !signupForm.valid, setColor: true}" type="submit"
+              class="my-7 w-36 rounded-full bg-blue-800 text-white">
               <p class="my-2">Вход</p>
             </button>
           </form>
