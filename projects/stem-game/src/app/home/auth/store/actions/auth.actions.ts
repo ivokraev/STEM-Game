@@ -5,6 +5,7 @@ import { AuthData } from '../../../../shared/models/auth-data.model';
 export enum Actions {
   SIGN_UP = '[Auth page] Signing up user',
   LOGIN = '[Auth page] Logging in user',
+  AUTO_LOGIN = '[Auth page] Auto-login user',
   AUTH_COMPLETE = '[Auth page] Authentication completed successfully',
   AUTH_ERROR = '[Auth page] Authentication crashed successfully',
   LOG_OUT = '[Auth page] Logging out user',
@@ -19,6 +20,10 @@ export const Login = createAction(
   Actions.LOGIN,
   props<{ authData: AuthData }>()
 );
+
+export const AutoLogin = createAction(
+  Actions.AUTO_LOGIN,
+)
 
 export const AuthComplete = createAction(
   Actions.AUTH_COMPLETE,

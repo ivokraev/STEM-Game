@@ -47,4 +47,12 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
+  autoLogin(): string | null {
+    console.debug(localStorage.getItem('authToken'));
+    const authData: string | null = JSON.stringify(localStorage.getItem('authToken')!);
+    if(authData && authData.length > 0){
+      return authData;
+    }
+    return null;
+  }
 }

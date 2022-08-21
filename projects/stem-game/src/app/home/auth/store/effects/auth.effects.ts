@@ -48,6 +48,19 @@ export class AuthEffects {
     );
   });
 
+  autoLogin$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.Actions.AUTO_LOGIN),
+      map(() => {
+        const token = this.authService.autoLogin();
+        if (token) {
+          return AuthActions.AuthComplete({ authToken: token });
+        }
+        return AuthActions.LogOut();
+      })
+    );
+  });
+
   authComplete$ = createEffect(
     () => {
       return this.actions$.pipe(
