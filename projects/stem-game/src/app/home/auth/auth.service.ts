@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { AuthData } from '../../shared/models/auth-data.model';
@@ -46,6 +46,17 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('authToken');
     this.router.navigate(['/']);
+  }
+
+  autoLogout(expirationDate: Date | null): Observable<void> {
+    return new Observable<void>((subscriber: Subscriber<void>) => {
+      if(expirationDate){
+        const timeout: number = (Date.now() - expirationDate.getTime());
+        setTimeout(() => {
+          subscriber.next();
+        }, timeout);
+      }
+    })
   }
 
   autoLogin(): AuthTokenData | null {

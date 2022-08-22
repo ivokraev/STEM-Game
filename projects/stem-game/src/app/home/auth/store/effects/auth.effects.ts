@@ -68,20 +68,24 @@ export class AuthEffects {
     );
   });
 
-  authComplete$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(AuthActions.Actions.AUTH_COMPLETE),
-        map((authData: any) => {
-          return authData.authTokenData;
-        }),
-        tap((authToken: AuthTokenData) => {
-          this.authService.authCompleted(authToken);
-        })
-      );
-    },
-    { dispatch: false }
-  );
+  authComplete$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.Actions.AUTH_COMPLETE),
+      map((authData: any) => {
+        return authData.authTokenData;
+      }),
+      tap((authToken: AuthTokenData) => {
+        this.authService.authCompleted(authToken);
+      }),
+      switchMap((authToken: AuthTokenData) => {
+        return this.authService.autoLogout(authToken.expirationDate).pipe(
+          map(() => {
+            return AuthActions.LogOut();
+          })
+        );
+      })
+    );
+  });
 
   logout$ = createEffect(
     () => {
