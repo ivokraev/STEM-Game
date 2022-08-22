@@ -7,7 +7,7 @@ export const selectAuth = createFeatureSelector<State>('auth')
 export const selectIsAuthToken = createSelector(
   selectAuth,
   (state: State) => {
-    const token = state.authToken;
+    const token = state.authTokenData?.token;
     if(token && token.length > 0) {
       return true;
     }
@@ -17,7 +17,7 @@ export const selectIsAuthToken = createSelector(
 
 export const selectAuthToken = createSelector(
   selectAuth,
-  (state: State) => state.authToken
+  (state: State) => state.authTokenData?.token
 );
 
 export const selectAuthError = createSelector(

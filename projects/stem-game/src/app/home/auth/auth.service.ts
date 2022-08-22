@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthData } from '../../shared/models/auth-data.model';
 import { IAuthResponseData } from '../../shared/models/auth-response-data.model';
+import { AuthTokenData } from '../../shared/models/auth-token-data.model';
 
 @Injectable({
   providedIn: 'root',
@@ -37,8 +38,8 @@ export class AuthService {
     );
   }
 
-  authCompleted(authToken: string): void {
-    localStorage.setItem('authToken', authToken);
+  authCompleted(authToken: AuthTokenData): void {
+    localStorage.setItem('authToken', JSON.stringify(authToken));
     this.router.navigate(['/']);
   }
 
@@ -47,12 +48,28 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
-  autoLogin(): string | null {
-    console.debug(localStorage.getItem('authToken'));
-    const authData: string | null = JSON.stringify(localStorage.getItem('authToken')!);
-    if(authData && authData.length > 0){
-      return authData;
+  autoLogin(): AuthTokenData | null {
+    const localAuthData: {
+      token: string | null;
+      expirationDate: string | null;
+      refreshToken: string | null;
+    } | null = JSON.parse(localStorage.getItem('authToken')!);
+
+    if (
+      !localAuthData ||
+      !localAuthData.token ||
+      !(localAuthData.token.length > 0) ||
+      !localAuthData.expirationDate ||
+      !(new Date(localAuthData.expirationDate).getTime() > Date.now())
+    ) {
+      return null;
     }
-    return null;
+
+    const authData: AuthTokenData = new AuthTokenData(
+      localAuthData!.token,
+      new Date(localAuthData!.expirationDate!),
+      localAuthData!.refreshToken
+    );
+    return authData;
   }
 }

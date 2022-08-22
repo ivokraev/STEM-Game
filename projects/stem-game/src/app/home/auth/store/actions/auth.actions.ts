@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
+import { AuthTokenData } from 'projects/stem-game/src/app/shared/models/auth-token-data.model';
 import { AuthData } from '../../../../shared/models/auth-data.model';
 
 export enum Actions {
@@ -27,7 +28,7 @@ export const AutoLogin = createAction(
 
 export const AuthComplete = createAction(
   Actions.AUTH_COMPLETE,
-  props<{ authToken: string }>()
+  props<{ authTokenData: AuthTokenData }>()
 );
 
 export const AuthError = createAction(

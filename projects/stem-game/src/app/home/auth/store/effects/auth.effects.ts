@@ -7,6 +7,7 @@ import { AuthData } from '../../../../shared/models/auth-data.model';
 import { AuthService } from '../../auth.service';
 import { IAuthResponseData } from '../../../../shared/models/auth-response-data.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthTokenDataFromResponse, AuthTokenData } from 'projects/stem-game/src/app/shared/models/auth-token-data.model';
 
 @Injectable()
 export class AuthEffects {
@@ -19,7 +20,10 @@ export class AuthEffects {
       switchMap((authData: AuthData) => {
         return this.authService.signUp(authData).pipe(
           map((recevedData: IAuthResponseData) => {
-            return AuthActions.AuthComplete({ authToken: recevedData.idToken });
+            const inputAuthTokenData = AuthTokenDataFromResponse(recevedData);
+            return AuthActions.AuthComplete({
+              authTokenData: inputAuthTokenData,
+            });
           }),
           catchError((authError: any) =>
             of(AuthActions.AuthError({ authError: authError }))
@@ -38,7 +42,10 @@ export class AuthEffects {
       switchMap((authData: AuthData) => {
         return this.authService.login(authData).pipe(
           map((recevedData: IAuthResponseData) => {
-            return AuthActions.AuthComplete({ authToken: recevedData.idToken });
+            const inputAuthTokenData = AuthTokenDataFromResponse(recevedData);
+            return AuthActions.AuthComplete({
+              authTokenData: inputAuthTokenData,
+            });
           }),
           catchError((authError: string | Error | HttpErrorResponse) =>
             of(AuthActions.AuthError({ authError: authError }))
@@ -54,7 +61,7 @@ export class AuthEffects {
       map(() => {
         const token = this.authService.autoLogin();
         if (token) {
-          return AuthActions.AuthComplete({ authToken: token });
+          return AuthActions.AuthComplete({ authTokenData: token });
         }
         return AuthActions.LogOut();
       })
@@ -66,9 +73,9 @@ export class AuthEffects {
       return this.actions$.pipe(
         ofType(AuthActions.Actions.AUTH_COMPLETE),
         map((authData: any) => {
-          return authData.authToken;
+          return authData.authTokenData;
         }),
-        tap((authToken: string) => {
+        tap((authToken: AuthTokenData) => {
           this.authService.authCompleted(authToken);
         })
       );
