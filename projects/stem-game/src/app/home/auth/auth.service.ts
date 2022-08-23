@@ -51,7 +51,7 @@ export class AuthService {
   autoLogout(expirationDate: Date | null): Observable<void> {
     return new Observable<void>((subscriber: Subscriber<void>) => {
       if(expirationDate){
-        const timeout: number = (Date.now() - expirationDate.getTime());
+        const timeout: number = (expirationDate.getTime() - Date.now());
         setTimeout(() => {
           subscriber.next();
         }, timeout);
