@@ -1,18 +1,21 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, Subscriber, switchMap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { AuthData } from '../../shared/models/auth-data.model';
 import { IAuthResponseData } from '../../shared/models/auth-response-data.model';
-import { User } from '../../shared/models/user.model';
+import { AuthTokenData } from '../../shared/models/auth-token-data.model';
+import { IAuthTokenFromRefreshToken } from '../../shared/models/auth-token-from-refresh-token.model';
+import { selectAuthRefreshToken } from './store/selectors/auth.selectors'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private store: Store) {}
 
   signUp(authData: AuthData): Observable<IAuthResponseData> {
     return this.http.post<IAuthResponseData>(
@@ -38,26 +41,65 @@ export class AuthService {
     );
   }
 
-  authCompleted(currentUser: User): void {
-    this.writeTokenToCookie(currentUser);
+  authCompleted(authToken: AuthTokenData, navigate: boolean | null = true): void {
+    localStorage.setItem('authToken', JSON.stringify(authToken));
+    if(navigate) {
+      this.router.navigate(['/game']);
+    }
   }
 
   logout(): void {
-    this.deleteTokenFormCookie();
+    localStorage.removeItem('authToken');
     this.router.navigate(['/']);
   }
 
-  private deleteTokenFormCookie(): void {
-    const token = 'token=';
-    const expires = 'expires='.concat(new Date(0).toUTCString());
-    document.cookie = [token, expires].join(';');
+  autoLogout(expirationDate: Date | null): Observable<void> {
+    return new Observable<void>((subscriber: Subscriber<void>) => {
+      if(expirationDate){
+        const timeout: number = (expirationDate.getTime() - Date.now());
+        setTimeout(() => {
+          subscriber.next();
+        }, timeout);
+      }
+    })
   }
 
-  private writeTokenToCookie(currentUser: User): void {
-    const token = 'token='.concat(currentUser.token);
-    const expires = 'expires='.concat(
-      currentUser.tokenExpirationDate.toUTCString()
+  autoLogin(): AuthTokenData | null {
+    const localAuthData: {
+      token: string | null;
+      expirationDate: string | null;
+      refreshToken: string | null;
+    } | null = JSON.parse(localStorage.getItem('authToken')!);
+
+    if (
+      !localAuthData ||
+      !localAuthData.token ||
+      !(localAuthData.token.length > 0) ||
+      !localAuthData.expirationDate ||
+      !(new Date(localAuthData.expirationDate).getTime() > Date.now())
+    ) {
+      return null;
+    }
+
+    const authData: AuthTokenData = new AuthTokenData(
+      localAuthData!.token,
+      new Date(localAuthData!.expirationDate!),
+      localAuthData!.refreshToken
     );
-    document.cookie = [token, expires].join(';');
+    return authData;
+  }
+
+  refreshToken(): Observable<IAuthTokenFromRefreshToken> {
+    return this.store.select(selectAuthRefreshToken).pipe(
+      switchMap((refreshToken: string) => {
+        return this.http.post<IAuthTokenFromRefreshToken>(
+          'https://securetoken.googleapis.com/v1/token?key=' + environment.API_Key,
+          {
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken
+          }
+        );
+      })
+    )
   }
 }

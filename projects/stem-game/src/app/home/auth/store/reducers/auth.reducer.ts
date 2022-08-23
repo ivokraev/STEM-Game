@@ -1,17 +1,17 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createReducer, on } from '@ngrx/store';
-import { User } from '../../../shared/models/user.model';
-import * as AuthActions from './auth.actions';
+import { AuthTokenData } from 'projects/stem-game/src/app/shared/models/auth-token-data.model';
+import * as AuthActions from '../actions/auth.actions';
 
 export const authFeatureKey = 'auth';
 
 export interface State {
-  currentUser: User | null;
+  authTokenData: AuthTokenData | null;
   authError: string | Error | HttpErrorResponse | null;
 }
 
 export const initialState: State = {
-  currentUser: null,
+  authTokenData: null,
   authError: null,
 };
 
@@ -19,9 +19,9 @@ export const authReducer = createReducer(
   initialState,
   on(
     AuthActions.AuthComplete,
-    (state, { currentUser }): State => ({
+    (state, { authTokenData }): State => ({
       ...state,
-      currentUser: currentUser,
+      authTokenData: authTokenData,
       authError: null,
     })
   ),
@@ -29,7 +29,7 @@ export const authReducer = createReducer(
     AuthActions.AuthError,
     (state, { authError }): State => ({
       ...state,
-      currentUser: null,
+      authTokenData: null,
       authError: authError,
     })
   ),
@@ -37,7 +37,7 @@ export const authReducer = createReducer(
     AuthActions.LogOut,
     (state): State => ({
       ...state,
-      currentUser: null,
+      authTokenData: null,
       authError: null,
     })
   )

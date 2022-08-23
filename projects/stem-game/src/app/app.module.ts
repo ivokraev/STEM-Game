@@ -8,7 +8,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
 
-import { AuthEffects } from './home/auth/store/auth.effects';
+import { AuthEffects } from './home/auth/store/effects/auth.effects';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';

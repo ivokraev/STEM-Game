@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AuthData } from 'projects/stem-game/src/app/shared/models/auth-data.model';
 
-import * as AuthActions from '../store/auth.actions'
+import * as AuthActions from '../store/actions/auth.actions'
 
 
 @Component({

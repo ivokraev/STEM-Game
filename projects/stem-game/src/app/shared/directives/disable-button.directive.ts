@@ -2,9 +2,7 @@ import {
   Directive,
   ElementRef,
   Input,
-  OnDestroy,
   Renderer2,
-  RendererStyleFlags2,
 } from '@angular/core';
 
 @Directive({
