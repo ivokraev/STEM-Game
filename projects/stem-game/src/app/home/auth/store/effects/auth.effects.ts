@@ -7,7 +7,8 @@ import { AuthData } from '../../../../shared/models/auth-data.model';
 import { AuthService } from '../../auth.service';
 import { IAuthResponseData } from '../../../../shared/models/auth-response-data.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AuthTokenDataFromResponse, AuthTokenData } from 'projects/stem-game/src/app/shared/models/auth-token-data.model';
+import { AuthTokenDataFromResponse, AuthTokenData, AuthTokenDataFromRefresh } from 'projects/stem-game/src/app/shared/models/auth-token-data.model';
+import { IAuthTokenFromRefreshToken } from 'projects/stem-game/src/app/shared/models/auth-token-from-refresh-token.model';
 
 @Injectable()
 export class AuthEffects {
@@ -61,7 +62,7 @@ export class AuthEffects {
       map(() => {
         const token = this.authService.autoLogin();
         if (token) {
-          return AuthActions.AuthComplete({ authTokenData: token });
+          return AuthActions.AuthComplete({ authTokenData: token, navigate: false });
         }
         return AuthActions.LogOut();
       })
@@ -71,18 +72,21 @@ export class AuthEffects {
   authComplete$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.Actions.AUTH_COMPLETE),
-      map((authData: any) => {
-        return authData.authTokenData;
+      tap((actionData: any) => {
+        if (actionData.navigate === false) {
+          this.authService.authCompleted(actionData.authTokenData, false);
+        } else {
+          this.authService.authCompleted(actionData.authTokenData);
+        }
       }),
-      tap((authToken: AuthTokenData) => {
-        this.authService.authCompleted(authToken);
-      }),
-      switchMap((authToken: AuthTokenData) => {
-        return this.authService.autoLogout(authToken.expirationDate).pipe(
-          map(() => {
-            return AuthActions.LogOut();
-          })
-        );
+      switchMap((actionData: any) => {
+        return this.authService
+          .autoLogout(actionData.authTokenData.expirationDate)
+          .pipe(
+            map(() => {
+              return AuthActions.LogOut();
+            })
+          );
       })
     );
   });
@@ -98,6 +102,26 @@ export class AuthEffects {
     },
     { dispatch: false }
   );
+
+  authTokenFromRefresh$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.Actions.AUTH_TOKEN_FROM_REFRESH),
+      switchMap(() => {
+        return this.authService.refreshToken().pipe(
+          map((refreshedToken: IAuthTokenFromRefreshToken) => {
+            const refreshedTokenData = AuthTokenDataFromRefresh(refreshedToken);
+            return AuthActions.AuthComplete({
+              authTokenData: refreshedTokenData,
+              navigate: false,
+            });
+          }),
+          catchError((authError: any) =>
+            of(AuthActions.AuthError({ authError: authError }))
+          )
+        );
+      })
+    );
+  });
 
   constructor(private actions$: Actions, private authService: AuthService) {}
 }

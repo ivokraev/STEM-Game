@@ -24,3 +24,12 @@ export const selectAuthError = createSelector(
   selectAuth,
   (state: State) => state.authError
 );
+
+export const selectAuthRefreshToken = createSelector(
+  selectAuth,
+  (state: State) => {
+    const refreshToken = state.authTokenData?.refreshToken;
+    if (refreshToken && refreshToken.length > 0) return refreshToken;
+    return '';
+  }
+);

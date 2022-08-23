@@ -1,18 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subscriber } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, Subscriber, switchMap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { AuthData } from '../../shared/models/auth-data.model';
 import { IAuthResponseData } from '../../shared/models/auth-response-data.model';
 import { AuthTokenData } from '../../shared/models/auth-token-data.model';
+import { IAuthTokenFromRefreshToken } from '../../shared/models/auth-token-from-refresh-token.model';
+import { selectAuthRefreshToken } from './store/selectors/auth.selectors'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private store: Store) {}
 
   signUp(authData: AuthData): Observable<IAuthResponseData> {
     return this.http.post<IAuthResponseData>(
@@ -38,9 +41,11 @@ export class AuthService {
     );
   }
 
-  authCompleted(authToken: AuthTokenData): void {
+  authCompleted(authToken: AuthTokenData, navigate: boolean | null = true): void {
     localStorage.setItem('authToken', JSON.stringify(authToken));
-    this.router.navigate(['/']);
+    if(navigate) {
+      this.router.navigate(['/game']);
+    }
   }
 
   logout(): void {
@@ -82,5 +87,19 @@ export class AuthService {
       localAuthData!.refreshToken
     );
     return authData;
+  }
+
+  refreshToken(): Observable<IAuthTokenFromRefreshToken> {
+    return this.store.select(selectAuthRefreshToken).pipe(
+      switchMap((refreshToken: string) => {
+        return this.http.post<IAuthTokenFromRefreshToken>(
+          'https://securetoken.googleapis.com/v1/token?key=' + environment.API_Key,
+          {
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken
+          }
+        );
+      })
+    )
   }
 }

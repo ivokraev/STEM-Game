@@ -10,6 +10,7 @@ export enum Actions {
   AUTH_COMPLETE = '[Auth page] Authentication completed successfully',
   AUTH_ERROR = '[Auth page] Authentication crashed successfully',
   LOG_OUT = '[Auth page] Logging out user',
+  AUTH_TOKEN_FROM_REFRESH = '[Auth page] Creating new authentication token from refresh token'
 }
 
 export const SignUp = createAction(
@@ -28,7 +29,7 @@ export const AutoLogin = createAction(
 
 export const AuthComplete = createAction(
   Actions.AUTH_COMPLETE,
-  props<{ authTokenData: AuthTokenData }>()
+  props<{ authTokenData: AuthTokenData, navigate?: boolean }>()
 );
 
 export const AuthError = createAction(
@@ -37,3 +38,5 @@ export const AuthError = createAction(
 );
 
 export const LogOut = createAction(Actions.LOG_OUT);
+
+export const AuthTokenFromRefresh = createAction(Actions.AUTH_TOKEN_FROM_REFRESH);

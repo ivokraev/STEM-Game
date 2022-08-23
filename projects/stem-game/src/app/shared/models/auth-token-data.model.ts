@@ -1,4 +1,5 @@
 import { IAuthResponseData } from './auth-response-data.model';
+import { IAuthTokenFromRefreshToken } from './auth-token-from-refresh-token.model';
 
 export function AuthTokenDataFromResponse(
   authResponseData: IAuthResponseData
@@ -14,6 +15,20 @@ export function AuthTokenDataFromResponse(
   return inputAuthTokenData;
 }
 
+export function AuthTokenDataFromRefresh(
+  rereshResponseData: IAuthTokenFromRefreshToken
+): AuthTokenData {
+  const expirationDate = new Date(
+    new Date().getTime() + parseInt(rereshResponseData.expires_in) * 1000
+  );
+  const inputAuthTokenData: AuthTokenData = new AuthTokenData(
+    rereshResponseData.id_token,
+    expirationDate,
+    rereshResponseData.refresh_token
+  );
+  return inputAuthTokenData;
+}
+
 export interface IAuthTokenData {
   token: string | null;
   expirationDate: Date | null;
@@ -24,6 +39,6 @@ export class AuthTokenData implements IAuthTokenData {
   constructor(
     public token: string | null,
     public expirationDate: Date | null,
-    public refreshToken: string | null
+    public refreshToken: string | null,
   ) {}
 }
