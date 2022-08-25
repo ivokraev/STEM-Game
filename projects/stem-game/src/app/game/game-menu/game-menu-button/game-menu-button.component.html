@@ -1,0 +1,12 @@
+<button [stemGameDisableButtonStyle]="{disabled: disabled()}" [routerLink]="['question', questionId]">
+  <div class="flex justify-center flex-col gap-3">
+    <div class="rounded-xl py-5 px-5 w-56 mx-auto " #questionCard>
+      <img src="../../../assets/imgs/stem-izsledovatel.png" class="w-40 mx-auto" alt="STEM researcher">
+      <p class="text-red-600 font-extrabold text-center my-3 text-4xl">№{{ questionId }}</p>
+      <img src="../../../assets/imgs/it-termin.png" class="w-40 mx-auto" alt="IT term">
+    </div>
+    <div>
+        <svg #svgIcon xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto " viewBox="0 0 20 20" fill="currentColor"><path #svgIconPath fill-rule="evenodd" clip-rule="evenodd" /></svg>
+    </div>
+  </div>
+</button>

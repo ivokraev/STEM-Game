@@ -1,0 +1,20 @@
+<stem-game-content-border>
+  <div class="mx-24 mt-5 ">
+    <div class="flex flex-col justify-center">
+      <div class="flex flex-row justify-center" stemGame>
+        <p class="mt-auto text-4xl font-bold text-rose-600">STEM</p>
+        <p class="text-6xl text-blue-600">ИГРА</p>
+      </div>
+      <div class="mt-5 flex justify-center">
+        <p class="text-xl font-semibold text-blue-900">STEM изследовател!</p>
+      </div>
+
+      <div class="flex justify-between flex-col lg:flex-row lg:justify-center my-5 gap-16">
+
+        <stem-game-game-menu-button *ngFor="let i of numbers" [questionId]="i"></stem-game-game-menu-button>
+
+      </div>
+    </div>
+  </div>
+
+</stem-game-content-border>

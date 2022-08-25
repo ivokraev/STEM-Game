@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 
 import { GameRoutingModule } from './game-routing.module';
-import { GameComponent } from './game/game.component';
 import { SharedModule } from '../shared/shared.module';
+import { GameMenuComponent } from './game-menu/game-menu.component';
+import { GameMenuButtonComponent } from './game-menu/game-menu-button/game-menu-button.component';
+import { GameQuestionComponent } from './game-question/game-question.component';
 
 
 @NgModule({
   declarations: [
-    GameComponent
+    GameMenuComponent,
+    GameQuestionComponent,
+    GameMenuButtonComponent,
   ],
   imports: [
     GameRoutingModule,

@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, Router, UrlSegment, UrlTree } from '@angular/router';
+import {
+  CanActivate,
+  CanLoad,
+  Route,
+  Router,
+  UrlSegment,
+  UrlTree,
+} from '@angular/router';
 import { Observable, of, switchMap, first } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -8,7 +15,7 @@ import { selectIsAuthToken } from '../../home/auth/store/selectors/auth.selector
 @Injectable({
   providedIn: 'root',
 })
-export class GameGuard implements CanLoad {
+export class GameGuard implements CanLoad, CanActivate {
   constructor(private store: Store, private router: Router) {}
 
   canLoad(
@@ -19,14 +26,26 @@ export class GameGuard implements CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-      return this.store.select(selectIsAuthToken).pipe(
-        first(),
-        switchMap((isAuthToken: boolean) => {
-          if(isAuthToken){
-            return of(true);
-          }
-          return of(this.router.createUrlTree(['/login']));
-        })
-      );
+    return this.guard();
+  }
+
+  canActivate():
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
+    return this.guard();
+  }
+
+  guard(): Observable<boolean | UrlTree> {
+    return this.store.select(selectIsAuthToken).pipe(
+      first(),
+      switchMap((isAuthToken: boolean) => {
+        if (isAuthToken) {
+          return of(true);
+        }
+        return of(this.router.createUrlTree(['/login']));
+      })
+    );
   }
 }
