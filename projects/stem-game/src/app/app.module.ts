@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import * as fromApp from './store/app.reducer';
 import { SharedModule } from './shared/shared.module';
+import { AuthInterceptor } from './home/auth/interceptor/auth.interceptor';
+import { CoreModule } from './core.module';
 
 
 
@@ -32,6 +34,7 @@ import { SharedModule } from './shared/shared.module';
     EffectsModule.forFeature([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, name: 'STEM Game' }),
 
+    CoreModule,
     SharedModule,
     AppRoutingModule,
   ],
