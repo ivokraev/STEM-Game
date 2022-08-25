@@ -91,7 +91,7 @@ export class AuthService {
 
   refreshToken(): Observable<IAuthTokenFromRefreshToken> {
     return this.store.select(selectAuthRefreshToken).pipe(
-      switchMap((refreshToken: string) => {
+      switchMap((refreshToken: string | null) => {
         return this.http.post<IAuthTokenFromRefreshToken>(
           'https://securetoken.googleapis.com/v1/token?key=' + environment.API_Key,
           {
