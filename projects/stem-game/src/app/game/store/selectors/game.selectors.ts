@@ -1,10 +1,16 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { GameQuestion } from '../../../shared/models/game/game-question.model';
 
-import { State } from '../reducers/game.reducer';
+import { gameFeatureKey } from '../reducers/game.reducer';
 
-export const selectGameQestions = createFeatureSelector<State>('game');
+import { GameState } from '../reducers/index'
 
-export const selectCurrentQuestiion = createSelector(
-  selectGameQestions,
-  (state: State) => state.currentQestion
-)
+export const selectGameQestion = createFeatureSelector<GameState>(gameFeatureKey);
+
+
+export const selectCurrentQuestion = createSelector(
+  selectGameQestion,
+  (state: GameState): GameQuestion | null => {
+    return state.gameQuestion.currentQuestion;
+  }
+);
