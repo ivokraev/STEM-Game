@@ -11,13 +11,13 @@ import * as fromGame from './game.reducer'
 
 export const gameFeatureKey = 'game';
 
-export interface State {
-  gameQestion: fromGame.State
+export interface GameState {
+  gameQuestion: fromGame.QuestionState
 }
 
-export const reducers: ActionReducerMap<State> = {
-  gameQestion: fromGame.reducer
+export const reducers: ActionReducerMap<GameState> = {
+  gameQuestion: fromGame.reducer
 };
 
 
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<GameState>[] = !environment.production ? [] : [];
