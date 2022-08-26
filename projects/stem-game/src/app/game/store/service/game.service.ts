@@ -4,17 +4,31 @@ import { Observable } from 'rxjs';
 import { GameQuestion } from '../../../shared/models/game/game-question.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GameService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
-
+  fetchQuestion(id: number): Observable<GameQuestion> {
+    return this.http.get<GameQuestion>(
+      'https://stem-game-itpg-dev-default-rtdb.europe-west1.firebasedatabase.app/gameQuestions/question' +
+        id +
+        '.json'
+    );
   }
 
-  fetchQestion(id: number): Observable<any>{
-    return this.http.get<any>(
-      'https://stem-game-itpg-dev-default-rtdb.europe-west1.firebasedatabase.app/gameQuestions.json'
-    )
+  saveQuestion(): Observable<Object> {
+    const gameQuestion = new GameQuestion(
+      2,
+      'Кой княз е покръстил българите',
+      'text'
+    );
+
+    return this.http.put(
+      'https://stem-game-itpg-dev-default-rtdb.europe-west1.firebasedatabase.app/gameQuestions/question' +
+        gameQuestion.id +
+        '.json',
+      gameQuestion
+    );
   }
 }
