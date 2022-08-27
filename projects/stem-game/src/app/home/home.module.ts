@@ -17,7 +17,6 @@ import { SignupComponent } from './auth/signup/signup.component';
   ],
   imports: [
     HomeRoutingModule,
-    ReactiveFormsModule,
 
     SharedModule,
   ],

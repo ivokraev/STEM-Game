@@ -17,6 +17,7 @@ import * as fromApp from './store/app.reducer';
 import { SharedModule } from './shared/shared.module';
 import { AuthInterceptor } from './home/auth/interceptor/auth.interceptor';
 import { CoreModule } from './core.module';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 
 
@@ -33,6 +34,7 @@ import { CoreModule } from './core.module';
     EffectsModule.forRoot([AuthEffects]),
     EffectsModule.forFeature([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, name: 'STEM Game' }),
+    StoreRouterConnectingModule.forRoot(),
 
     CoreModule,
     SharedModule,

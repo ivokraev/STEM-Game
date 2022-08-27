@@ -1,8 +1,12 @@
 {
 	"rules": {
-    "questions": {
-      ".read": "auth.uid != null",
-      ".write": "false"
+    "gameQuestions": {
+      ".read": "auth.uid !== null",
+      ".write": "auth.uid === '1lZjf1Tyf7ZpAHMcEYgCUjFsonS2'"
+    },
+    "answers": {
+      ".read": "auth.uid !== null",
+      ".write": "auth.uid === '1lZjf1Tyf7ZpAHMcEYgCUjFsonS2'"
     },
     "userStatus": {
       "$uid": {

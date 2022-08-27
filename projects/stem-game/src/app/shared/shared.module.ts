@@ -7,6 +7,7 @@ import { DisableButtonStyleDirective } from './directives/disable-button.directi
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ContentBorderComponent } from './components/content-border/content-border.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -20,10 +21,13 @@ import { ContentBorderComponent } from './components/content-border/content-bord
     DisableButtonStyleDirective,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   exports: [
     CommonModule,
+    ReactiveFormsModule,
+
     ErrorComponent,
     ContentBorderComponent,
     HeaderComponent,
