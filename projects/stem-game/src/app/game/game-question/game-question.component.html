@@ -1,14 +1,14 @@
-<stem-game-content-border>
+<stem-game-content-border *ngIf="(currentQuestion$ | async) as currentQuestion">
   <div class="mx-24 mt-5">
-    <p class="text-center text-3xl font-extrabold text-red-600">Въпрос №{{ currentQuestion!.id }}:</p>
+    <p class="text-center text-3xl font-extrabold text-red-600">Въпрос №{{ currentQuestion.id }}:</p>
     <div class="flex max-w-xl flex-col justify-center rounded-xl bg-sky-200 py-5 px-16 mt-5 gap-10">
-      <p class="text-center text-lg">{{ currentQuestion!.question }}</p>
+      <p class="text-center text-lg">{{ currentQuestion.question }}</p>
       <div class="flex justify-center flex-col  gap-3">
         <form [formGroup]="answerForm" (submit)="onSubmit()">
-          <div class="flex flex-col">
+          <div class="flex flex-col gap-3">
             <label class="text-center">Твоят отговор:</label>
-            <input type="{{ currentQuestion!.answerType }}" formControlName="answer"
-              class="text-center rounded-full py-2 px-5 focus:ring focus:ring-offset-2 focus:outline-none focus:ring-blue-500 ring-offset-sky-200">
+            <input #answerInput type="{{ currentQuestion.answerType }}" formControlName="answer"
+              class="text-center rounded-full  py-2 px-5  ring-offset-sky-200">
           </div>
         </form>
       </div>

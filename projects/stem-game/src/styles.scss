@@ -24,6 +24,21 @@
   @apply fill-white;
 }
 
+@layer components {
+  .input-answer{
+    @apply ring ring-offset-2 outline-none ring-offset-sky-200
+  }
+}
+.input-answer-null{
+  @apply focus:input-answer focus:ring-blue-500
+}
+.input-answer-correct{
+  @apply input-answer ring-green-400;
+}
+.input-answer-incorrect{
+  @apply input-answer ring-red-600;
+}
+
 
 
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Press+Start+2P&display=swap');

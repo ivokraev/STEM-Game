@@ -14,3 +14,10 @@ export const selectCurrentQuestion = createSelector(
     return state.gameQuestion.currentQuestion;
   }
 );
+
+export const selectIsAnswerCorrect = createSelector(
+  selectGameQestion,
+  (state: GameState): boolean | null => {
+    return state.gameQuestion.isAnswerCorrect
+  }
+)
